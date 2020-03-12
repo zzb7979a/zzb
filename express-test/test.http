@@ -1,0 +1,41 @@
+//定义一个变量存储地址
+@uri=http://localhost:3002/
+
+
+GET {{uri}}products
+###
+//每个请求用三个#隔开
+GET {{uri}}products/
+###
+POST {{uri}}products/
+//定义发送请求的数据类型为json
+//插入数据
+Content-Type: application/json
+
+{
+    "title":"产品5"
+}
+###
+
+//修改数据库数据1
+PUT {{uri}}products/5e64a431d0430c2fd09d5577
+Content-Type: application/json
+
+{
+    "title":"产品55"
+}
+
+###
+//修改数据库数据2
+PATCH {{uri}}products/5e64cdf5e968ea1378d589e8
+Content-Type: application/json
+
+{
+    "title":"产品55"
+}
+
+###
+//在数据库进行删除数据操作
+DELETE  {{uri}}products/5e64cdf0e968ea1378d589e6
+
+

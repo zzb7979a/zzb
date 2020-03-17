@@ -8,7 +8,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.png">
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="app">
         <div class="home-header">
             <img src="./images/home-search-text.png" alt="">
             <form action="">
@@ -16,98 +16,21 @@
                 <button>搜索</button>
             </form>
         </div>
-
+<!-- 在dl进行vue的for循环，img引用vue是在：，div里面引用是两个{{}} ,-->
        <div class="home-categories">
-           <dl>
+           <dl v-for="item in categories">
                <dt>
-                   <img src="./images/technology.png" alt="">
-                   <div>技术</div>
+                   <img :src="item.icon" alt="">
+                   <div>{{item.name}}</div>
 
                </dt>
+               <!-- 在a标签里面也进行循环 -->
                <dd>
-                   <a href="" class="tag">Java</a>
-                   <a href="" class="tag">Java</a>
-                   <a href="" class="tag">Java</a>
-                   <a href="" class="tag">Java</a>
-                   <a href="" class="tag">Java</a>
-                   <a href="" class="tag">Java</a>
+                   <a href="" class="tag" v-for="tag in item.tags">{{tag}}</a>
+                  
                </dd>    
            </dl>    
-           <dl>
-            <dt>
-                <img src="./images/technology.png" alt="">
-                <div>技术</div>
-
-            </dt>
-            <dd>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-            </dd>    
-        </dl>   
-        <dl>
-            <dt>
-                <img src="./images/technology.png" alt="">
-                <div>技术</div>
-
-            </dt>
-            <dd>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-            </dd>    
-        </dl>   
-        <dl>
-            <dt>
-                <img src="./images/technology.png" alt="">
-                <div>技术</div>
-
-            </dt>
-            <dd>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-            </dd>    
-        </dl>   
-        <dl>
-            <dt>
-                <img src="./images/technology.png" alt="">
-                <div>技术</div>
-
-            </dt>
-            <dd>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-            </dd>    
-        </dl>   
-        <dl>
-            <dt>
-                <img src="./images/technology.png" alt="">
-                <div>技术</div>
-
-            </dt>
-            <dd>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-                <a href="" class="tag">Java</a>
-            </dd>    
-        </dl>   
+           
        </div>
        <div class="home-footer">
             
@@ -119,5 +42,36 @@
 
 
     </div>
+    <!-- 找到cdnjs的网站输入vue后点击右侧的copy script page，放到body的前面，进行vue的引用 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js" integrity="sha256-ngFW3UnAN0Tnm76mDuu7uUtYEcG3G5H1+zioJw3t+68=" crossorigin="anonymous"></script>
+    <!-- 引用fetch -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.0.0/fetch.min.js.map" integrity="undefined" crossorigin="anonymous"></script>
+    
+
+    <!-- 把el里面的app和<div class="container" id="app">这个里面的挂钩，原先的数据都移到data里面 -->
+   <script>
+        const vm = new Vue({
+            el:'#app',
+            data:{
+                categories:[]
+                      },
+                  
+             created:function(){
+                const that= this  
+
+
+                 fetch('http://127.0.0.1:5500/api/index.json').then(function(res){
+                     return res.json()
+                 }).then(function(data){
+                    //vm.categories = data
+                    that.categories=data
+                 })
+
+             }        
+
+
+
+        })
+    </script>
 </body>
 </html>

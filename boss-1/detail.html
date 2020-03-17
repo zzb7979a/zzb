@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style/main.css">
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="app">
         <div class="top-bar flex padde">
             <img src="./images/logo.png" alt="">
             <form action="" calss="flex" >
@@ -18,37 +18,46 @@
         </div>
         <div class="job-info  padde">
             <div class="title flex">
-                <span>web前端</span>
-                <span class="saracy" >8k-15k</span>
+                <span>{{job.title}}</span>
+                <span class="salacy" >{{job.salary}}</span>
 
             </div>
             <div class="props flex">
                 <div class="items flex">
-                    上海 <i></i> 1-3年 <i></i>不限
-               
+                    <!-- 添加template虚拟标签,循环里面添加index字段 -->
+                <template v-for="(tag,index) in job.tags">
+                    <!-- 添加if循环，大于0就加上i标签 -->
+                    <i v-if="index >0"></i>
+                    {{tag}}
+                </template>
+
+
+
+                   
                 </div>
                 <div>
-                    发布于07月24日
+                    发布于{{job.date}}
                 </div>
             </div>
             <div class="tags">
-                <span>vuu.js</span>
-                <span>node.js</span>
-                <span>react</span>
+                <span v-for="label in job.labels">{{label}}</span>
+
 
             </div>
         </div>
 
-        <div class="user-info flex padde ">
-            <img src="./images/avatar_7.png" alt="">
+        <!-- 加上v-if，表示告诉浏览器我们已经有这个数据 -->
+
+        <div class="user-info flex padde " v-if="job.user">
+            <img :src="job.user.avater" alt="">
             <div class="info">
              <div class="name flex ">
-               <span>徐雨详</span> 
+               <span>{{job.user.name}}</span> 
                <span class='like'>
                 <img src="./images/link-like.png" alt="">   
                 感兴趣</span>
              </div>
-               <div class="desc">嘉实集团·软件工程师></div> 
+               <div class="desc">{{job.user.title}}</div> 
 
             
                
@@ -57,33 +66,34 @@
             
 
         </div>
-        <div class="job-detail padde">
+        <div class="job-detail padde" v-if="job.company">
             <h3>职位描述</h3>
-            <div class="text">
-                1、负责项目机电管综深化，确保机电模型方案符合规范、合理、美观、经济，达到可实施落地要求。<br>2、负责招投标至项目施工各阶段BIM策划汇报工作。<br>3、能够按时间节点在施工前完成模型建立及深化及出图，对项目施工工艺及流程有一定的了解。<br>4、熟悉暖通、给排水、电气、消防、等系统，并对建筑结构有一定的了解。<br>5、熟练使用revit、navisworks、等BIM常用软件。<br>6、参与BIM研发与创新，并且为企业信息化平台提供支撑。
-                   
+            <!-- 防止文档里面出现html的标签 -->
+            <div class="text" v-html="job.body">
+               
             </div>
             <h3>团队介绍</h3>
             <div class="tags">
-                <span>公司氛围好</span>
-                <span>不打卡</span>
-                <span>领导nice</span>
-            
+                <span v-for="item in job.team">{{item}}</span>
+                
             </div>
             <h3>公司介绍</h3>
            <div class="text">
-            上海嘉实集团成立于1994年，是集建筑设计、施工、房产开发、旅业、置业投资与管理的多产业协调发展的企业集团，现有各专业管理员工700多名，具有中高级技术职称人员380多名。在建筑、安装、装饰、市政、消防、钢结构、绿化景观与门窗幕墙等专业，具备多项国家一级资质和开发、设计、施工、经营一体化的管理经验和
-           </div>
+              {{job.company.body}}
+             </div>
            <h3>工商信息</h3>
            <div class="text">
-            <p>上海嘉实（集团）有限公司</p>
+            <p>{{job.company.full_name}}</p>
             
             <table>
                 <tr>
-                    <th>法人代表：</th>   <td>阮美琴</td>   <th>注册资本：</th>   <td>20000万人民币</td>
+                    <th>法人代表：</th> 
+                    <td>{{job.company.props.法人代表}}</td> 
+                    <th>注册资本：</th>  
+                    <td>{{job.company.props.注册资本}}</td>
                 </tr>
                 <tr>
-                    <th>法人代表：</th>   <td>阮美琴</td>   <th>注册资本：</th>   <td>20000万人民币</td>
+                    <th>法人代表：</th>   <td>{{job.company.props.法人代表}}</td>   <th>注册资本：</th>   <td>{{job.company.props.注册资本}}</td>
                 </tr>
             </table>
             <p class="gray"><small>数据来源：天眼查</small></p>
@@ -93,19 +103,22 @@
 
             </div>
         </div>
-        <div class="company-info  flex  padde">
-            <img src="./images/company.jpg" alt="">
+        <div class="company-info  flex  padde" v-if="job.company" >
+            <img :src="job.company.logo" alt="">
             <div class="info">
                <div class="name flex ">
-                  <span>嘉实集团</span>
+                  <span>{{job.company.name}}</span>
                   <button class="btn" type="button">关注该公司</button>
                </div>  
-               <div class="desc">上海嘉实（集团）有限公司 </div>
+               <div class="desc">{{job.company.full_name}} </div>
                 
                <div class="tags flex">
-                    <span>工程施工</span>  <i></i>
-                    <span>不需要融资</span> <i></i>
-                    <span>500-999人</span>
+                   <template v-for="(tag,index) in job.company.tags">
+                       <i v-if="index>0"></i>
+                       <span >{{tag}}</span> 
+
+                   </template>
+                    
                 </div>  
                
             </div>
@@ -116,17 +129,17 @@
         <div class="related-jobs padde">
             <h3>相似职位</h3>
             <ul class="job-list">
-                <li>
+                <li v-for="item in job.jobs">
                     <a href="" class="job-item flex">
-                        <img src="./images/ss.jpg" alt="">
+                        <img :src="item.logo" alt="">
                         <div class="text">
                             <div class="title flex">
-                                自然语言处理
-                              <span class="salary">20-40K</span>
+                                {{item.title}}
+                              <span class="salary">{{item.salary}}</span>
                             </div>
                             <div class="flex">
                                 <div class="company">
-                                    小米
+                                    {{item.company}}
                                 </div>
                                 <button type="button" class="btn">立即沟通</button>
                                 <!-- 不需要提交表单按钮就写type -->
@@ -136,111 +149,52 @@
         
                     </a>
                 </li>
-                <li>
-                    <a href="" class="job-item flex">
-                        <img src="./images/ss.jpg" alt="">
-                        <div class="text">
-                            <div class="title flex">
-                                自然语言处理
-                              <span class="salary">20-40K</span>
-                            </div>
-                            <div class="flex">
-                                <div class="company">
-                                    小米
-                                </div>
-                                <button type="button" class="btn">立即沟通</button>
-                                <!-- 不需要提交表单按钮就写type -->
-                            </div>
-                            
-                        </div>
-        
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="job-item flex">
-                        <img src="./images/ss.jpg" alt="">
-                        <div class="text">
-                            <div class="title flex">
-                                自然语言处理
-                              <span class="salary">20-40K</span>
-                            </div>
-                            <div class="flex">
-                                <div class="company">
-                                    小米
-                                </div>
-                                <button type="button" class="btn">立即沟通</button>
-                                <!-- 不需要提交表单按钮就写type -->
-                            </div>
-                            
-                        </div>
-        
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="job-item flex">
-                        <img src="./images/ss.jpg" alt="">
-                        <div class="text">
-                            <div class="title flex">
-                                自然语言处理
-                              <span class="salary">20-40K</span>
-                            </div>
-                            <div class="flex">
-                                <div class="company">
-                                    小米
-                                </div>
-                                <button type="button" class="btn">立即沟通</button>
-                                <!-- 不需要提交表单按钮就写type -->
-                            </div>
-                            
-                        </div>
-        
-                    </a>
-                </li>
-                <li>
-                    <a href="" class="job-item flex">
-                        <img src="./images/ss.jpg" alt="">
-                        <div class="text">
-                            <div class="title flex">
-                                自然语言处理
-                              <span class="salary">20-40K</span>
-                            </div>
-                            <div class="flex">
-                                <div class="company">
-                                    小米
-                                </div>
-                                <button type="button" class="btn">立即沟通</button>
-                                <!-- 不需要提交表单按钮就写type -->
-                            </div>
-                            
-                        </div>
-        
-                    </a>
-                </li>
+             
             </ul>
 
         </div>
         <div class="related-companies  padde">
             <h3>推荐公司：</h3>
             <div class="tags">
-                <a href="">君游科技</a>
-                <a href="">九四翼八网络科技公司</a>
-                <a href="">淄博博山同惠五金经营部</a>
-                <a href="">鹏宇程进出口</a>
-                <a href="">鹏博通达</a>
+                <a href=""  v-for="item in job.companies">{{item.name}}</a>
+                
 
             </div>
            
         </div>
         <div class="job-footer breadcrumb-nav  ">
-            <a href="">首页</a> <i></i>
-            <a href="">上海招聘</a> <i></i>
-            <a href="">上海建筑工程师招聘</a> <i></i>
-            <a href="">建筑工程师招聘</a> <i></i>
-            <a href="">嘉实集团BIM工程师 （工作地点郑州区域）招聘</a> <i></i>
+            <template v-for="(item,index) in job.path">
+                <a href="">{{item.title}}</a> <i i-if="index 
+                < job.path.lenght -1"></i>
 
+            </template>
+            
+            
         </div>
         
 
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js" integrity="sha256-ngFW3UnAN0Tnm76mDuu7uUtYEcG3G5H1+zioJw3t+68=" crossorigin="anonymous"></script>
+<script>
+    const vm = new Vue({
+        el:'#app',
+        data:{
+            job:{}
+        },
+        created:function(){
+            const that = this
+            fetch('http://127.0.0.1:5500/api/job.json').then(function(res){
+                return res.json()
+            }).then(function(data){
+                that.job=data
+
+            })
+        }
+
+
+    })
+</script>
+
+
 </body>
 </html>

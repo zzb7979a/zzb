@@ -1,0 +1,29 @@
+[
+    {
+        "icon": "./images/technology.png",
+        "name": "技术",
+        "tags": [
+            "java",
+            "php",
+            "nodejs"
+        ]
+    },
+    {
+        "icon": "./images/technology.png",
+        "name": "职位",
+        "tags": [
+            "java",
+            "php",
+            "nodejs"
+        ]
+    },
+    {
+        "icon": "./images/technology.png",
+        "name": "工资",
+        "tags": [
+            "java",
+            "php",
+            "nodejs"
+        ]
+    }
+]
